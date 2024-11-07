@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+.table-responsive {
+  max-height: 350px; /* Altura fija para la tabla con scroll */
+  overflow-y: auto;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #fff; /* Fondo para que se vea el encabezado */
+  z-index: 1;
+}

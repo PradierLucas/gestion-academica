@@ -1,0 +1,29 @@
+/* Welcome.css */
+
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    background-color: #f4f4f4;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .welcome-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4CAF50; /* Verde */
+    margin-bottom: 20px;
+  }
+  
+  .welcome-message {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  
+
+ 
+  
