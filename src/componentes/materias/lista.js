@@ -3,6 +3,7 @@ import "../../App.css";
 import { toast } from 'react-toastify';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'; 
+import Header from '../header';
 
 const MateriasList = () => {
   const [materias, setMaterias] = useState([]);
@@ -135,6 +136,8 @@ const MateriasList = () => {
 
   return (
     <>
+
+    <Header></Header>
       <div className="container">
         <h2 className="my-4">Lista de Materias</h2>
         <div className='row'>

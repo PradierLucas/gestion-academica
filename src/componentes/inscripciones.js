@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import jsPDF from 'jspdf';
 import Header from './header';
+import "../App.css";
 
 const InscripcionesMaterias = () => {
     const [materias, setMaterias] = useState([]);
@@ -33,19 +36,52 @@ const InscripcionesMaterias = () => {
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.message);  // Show success or error message
-                setAlumnosInscritos(alumnosInscritos.filter(alumno => alumno.id !== alumnoId)); // Remove alumno from list
+                toast.success("Alumno desinscripto");
+                setAlumnosInscritos(alumnosInscritos.filter(alumno => alumno.id !== alumnoId));
             })
-            .catch(error => console.error('Error al desinscribir al alumno:', error));
+            .catch(error => {
+                console.error('Error al desinscribir al alumno:', error);
+                toast.error("No se pudo desinscribir el alumno");
+            });
     };
+
+    // Descargar como PDF
+    const handleDownloadPDF = () => {
+        if (!selectedMateriaId || alumnosInscritos.length === 0) {
+            toast.info("No hay datos para exportar.");
+            return;
+        }
+        const fecha = (new Date().toLocaleDateString())
+        const materia = materias.find(m => m.id === parseInt(selectedMateriaId));
+        const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.text(`Fecha ${fecha}`, 10, 10);
+        doc.text(`Inscripciones para la Materia: ${materia.nombre}`, 10, 20);
+        doc.setFontSize(12);
+        doc.text(`Carrera: ${materia.carrera || 'N/A'}`, 10, 30);
+        doc.text(`Año: ${materia.anio || 'N/A'}`, 10, 40);
+        doc.text(`Alumnos Inscritos:`, 10, 50);
+
+        let y = 60;
+        alumnosInscritos.forEach((alumno, index) => {
+            doc.text(`${index + 1}. ${alumno.nombre} (DNI: ${alumno.dni})`, 10, y);
+            y += 10;
+        });
+
+        doc.save(`${materia.nombre}-inscripciones-${fecha}.pdf`);
+    };
+
+   
 
     return (
         <>
+        
+        <Header></Header>
             <div className="container">
                 <h2 className="my-4">Inscripciones por Materia</h2>
 
                 <div className="mb-3">
-                    <label htmlFor="materia" className="form-label">Seleccionar Materia</label>
+                   
                     <select
                         id="materia"
                         className="form-select"
@@ -58,16 +94,28 @@ const InscripcionesMaterias = () => {
                         ))}
                     </select>
                 </div>
-
+                        <br></br>
                 {selectedMateriaId && (
                     <>
-                        <h4 className="mt-4">Alumnos Inscritos en la Materia</h4>
-                        <table className="table table-striped">
+                    <div className='row align-content-center'>
+                        <div className='col-6 me-2'>
+                        <h4 >Alumnos Inscritos en la Materia</h4>
+                        </div>
+                        <div className='col-4 me-2'>
+                        <button className="btn btn-primary me-2" onClick={handleDownloadPDF}>
+                            Descargar PDF
+                        </button>
+                        </div>
+                    </div>
+                        <br></br>
+
+                        
+                        <div className='table-responsive'>
+                        <table className="table table-striped text-center">
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
                                     <th>DNI</th>
-
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -95,11 +143,16 @@ const InscripcionesMaterias = () => {
                                     ))
                                 )}
                             </tbody>
-
                         </table>
+
+                        
+                        </div>
                     </>
                 )}
             </div>
+
+         <br></br><br></br><br></br><br></br><br></br><br></br>
+            
 
         </>
     );

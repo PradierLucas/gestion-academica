@@ -1,4 +1,4 @@
-// Formulario.js
+
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 const Formulario = ({ id, handleClose, onCancel }) => {
@@ -6,6 +6,8 @@ const Formulario = ({ id, handleClose, onCancel }) => {
     nombre: '',
     dni: '',
     edad: '',
+    estado:''
+   
   });
 
   useEffect(() => {
@@ -90,6 +92,19 @@ const Formulario = ({ id, handleClose, onCancel }) => {
             required
           />
         </div>
+        <div className="mb-3">
+          <label className="form-label">Estado</label>
+          <input
+            type="number"
+            name="estado"
+            value={formData.estado}
+            onChange={handleChange}
+            className="form-control"
+            required
+          />
+        </div>
+
+      
         
         <div className="d-flex justify-content-between">
           <button type="submit" className="btn btn-primary">

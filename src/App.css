@@ -44,6 +44,7 @@
 .table thead th {
   position: sticky;
   top: 0;
-  background-color: #fff; /* Fondo para que se vea el encabezado */
+  background-color: black; /* Fondo para que se vea el encabezado */
   z-index: 1;
+  color: white;
 }
